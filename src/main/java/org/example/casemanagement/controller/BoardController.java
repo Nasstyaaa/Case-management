@@ -41,7 +41,7 @@ public class BoardController {
         try {
             boardService.createBoard(request, user);
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Board created successfully");
+            response.put("message", "Доска успешно создана");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error creating board", e);
@@ -95,7 +95,7 @@ public class BoardController {
         log.debug("Updating board {} for user: {}", id, user.getUsername());
         try {
             boardService.updateBoard(id, request, user);
-            redirectAttributes.addFlashAttribute("success", "Board updated successfully");
+            redirectAttributes.addFlashAttribute("success", "Доска успешно обновлена");
             return "redirect:/boards/" + id;
         } catch (Exception e) {
             log.error("Error updating board", e);
@@ -113,7 +113,7 @@ public class BoardController {
         log.debug("Deleting board {} for user: {}", id, user.getUsername());
         try {
             boardService.deleteBoard(id, user);
-            redirectAttributes.addFlashAttribute("success", "Board deleted successfully");
+            redirectAttributes.addFlashAttribute("success", "Доска успешно удалена");
         } catch (Exception e) {
             log.error("Error deleting board", e);
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -133,22 +133,22 @@ public class BoardController {
             var board = boardService.getBoard(id, user);
             
             if (!board.getOwner().equals(user)) {
-                redirectAttributes.addFlashAttribute("error", "Only the board owner can add members");
+                redirectAttributes.addFlashAttribute("error", "Только владелец доски может добавлять участников");
                 return "redirect:/boards/" + id;
             }
 
             if (!board.isPublic()) {
-                redirectAttributes.addFlashAttribute("error", "Cannot add members to a private board. Please make the board public first.");
+                redirectAttributes.addFlashAttribute("error", "Невозможно добавить участников в приватную доску. Сначала сделайте доску публичной.");
                 return "redirect:/boards/" + id;
             }
             
             if (username.equals(user.getUsername())) {
-                redirectAttributes.addFlashAttribute("error", "You cannot add yourself as a member.");
+                redirectAttributes.addFlashAttribute("error", "Вы не можете добавить себя в качестве участника.");
                 return "redirect:/boards/" + id;
             }
 
             boardService.addMember(id, username, user);
-            redirectAttributes.addFlashAttribute("success", "Member added successfully");
+            redirectAttributes.addFlashAttribute("success", "Участник успешно добавлен");
         } catch (Exception e) {
             log.error("Error adding member", e);
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -166,7 +166,7 @@ public class BoardController {
         log.debug("Removing member {} from board {} by user: {}", username, id, user.getUsername());
         try {
             boardService.removeMember(id, username, user);
-            redirectAttributes.addFlashAttribute("success", "Member removed successfully");
+            redirectAttributes.addFlashAttribute("success", "Участник успешно удален");
         } catch (Exception e) {
             log.error("Error removing member", e);
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -186,12 +186,12 @@ public class BoardController {
             
             if (!board.getOwner().equals(user)) {
                 return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Only the board owner can change visibility"));
+                    .body(Map.of("message", "Только владелец доски может изменить видимость"));
             }
 
             if (board.isPublic()) {
                 return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Board is already public and cannot be made private"));
+                    .body(Map.of("message", "Доска уже является публичной и не может быть сделана приватной"));
             }
 
             board.setPublic(true);
@@ -202,7 +202,7 @@ public class BoardController {
                     .build(), user);
 
             return ResponseEntity.ok(Map.of(
-                "message", "Board is now public"
+                "message", "Доска теперь публичная"
             ));
         } catch (Exception e) {
             log.error("Error making board public", e);

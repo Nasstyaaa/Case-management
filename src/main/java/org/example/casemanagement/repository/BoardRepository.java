@@ -9,13 +9,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    
+
     @Query("SELECT b FROM Board b WHERE b.owner = :user OR :user MEMBER OF b.members")
     List<Board> findAccessibleBoards(@Param("user") User user);
-    
-    List<Board> findByOwner(User owner);
-    
+
     @Query("SELECT CASE WHEN COUNT(b) > 0 THEN true ELSE false END FROM Board b " +
-           "WHERE b.id = :boardId AND (b.owner = :user OR :user MEMBER OF b.members)")
+            "WHERE b.id = :boardId AND (b.owner = :user OR :user MEMBER OF b.members)")
     boolean hasAccess(@Param("boardId") Long boardId, @Param("user") User user);
-} 
+}

@@ -155,7 +155,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void deleteTask(Long taskId, User user) {
+    public void deleteTask(Long taskId, Long id, User user) {
         var task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
@@ -184,5 +184,18 @@ public class TaskService {
         }
 
         return task;
+    }
+
+    @Transactional(readOnly = true)
+    public Task getRandomTodoTask(Long boardId, User user) {
+        var board = boardService.getBoard(boardId, user);
+        var todoTasks = taskRepository.findByBoardAndStatusOrderByCreatedAtDesc(board, TaskStatus.TODO);
+        
+        if (todoTasks.isEmpty()) {
+            throw new IllegalArgumentException("No tasks found in TODO status");
+        }
+        
+        int randomIndex = (int) (Math.random() * todoTasks.size());
+        return todoTasks.get(randomIndex);
     }
 } 

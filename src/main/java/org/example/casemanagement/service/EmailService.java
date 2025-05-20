@@ -27,17 +27,17 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(FROM_EMAIL);
             message.setTo(to);
-            message.setSubject("Welcome to Case Management System");
+            message.setSubject("Добро пожаловать в систему управления задачами");
             message.setText(String.format("""
-                Dear %s,
+                Уважаемый(ая) %s,
                             
-                Welcome to the Case Management System! We're excited to have you on board.
+                Добро пожаловать в систему управления задачами! Мы рады видеть вас в нашей команде.
                             
-                You can now start creating and managing your cases. If you have any questions,
-                please don't hesitate to contact our support team.
+                Теперь вы можете начать создавать и управлять своими задачами. Если у вас возникнут вопросы,
+                пожалуйста, не стесняйтесь обращаться в нашу службу поддержки.
                             
-                Best regards,
-                Case Management Team
+                С наилучшими пожеланиями,
+                Команда управления задачами
                 """, username));
             
             mailSender.send(message);
@@ -53,22 +53,22 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(FROM_EMAIL);
             message.setTo(assignee.getEmail());
-            message.setSubject("New Task Assignment: " + task.getTitle());
+            message.setSubject("Новое назначение задачи: " + task.getTitle());
             message.setText(String.format("""
-                Dear %s,
+                Уважаемый(ая) %s,
                             
-                You have been assigned to the task "%s" by %s.
+                Вам назначена задача "%s" пользователем %s.
                 
-                Task Details:
-                - Title: %s
-                - Description: %s
-                - Current Status: %s
-                - Board: %s
+                Детали задачи:
+                - Название: %s
+                - Описание: %s
+                - Текущий статус: %s
+                - Доска: %s
                             
-                You can view and manage this task in your Case Management System dashboard.
+                Вы можете просматривать и управлять этой задачей в панели управления системой.
                             
-                Best regards,
-                Case Management Team
+                С наилучшими пожеланиями,
+                Команда управления задачами
                 """, 
                 assignee.getUsername(),
                 task.getTitle(),
@@ -98,22 +98,22 @@ public class EmailService {
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom(FROM_EMAIL);
                 message.setTo(assignee.getEmail());
-                message.setSubject("Task Completed: " + task.getTitle());
+                message.setSubject("Задача выполнена: " + task.getTitle());
                 message.setText(String.format("""
-                    Congratulations %s!
+                    Поздравляем, %s!
                                 
-                    The task "%s" has been completed successfully.
+                    Задача "%s" успешно выполнена.
                     
-                    Task Details:
-                    - Title: %s
-                    - Description: %s
-                    - Time spent: %d days, %d hours, %d minutes
-                    - Board: %s
+                    Детали задачи:
+                    - Название: %s
+                    - Описание: %s
+                    - Затраченное время: %d дней, %d часов, %d минут
+                    - Доска: %s
                                 
-                    Great job on completing this task! Keep up the good work.
+                    Отличная работа! Продолжайте в том же духе.
                                 
-                    Best regards,
-                    Case Management Team
+                    С наилучшими пожеланиями,
+                    Команда управления задачами
                     """,
                     assignee.getUsername(),
                     task.getTitle(),

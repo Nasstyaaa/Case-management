@@ -25,21 +25,21 @@ public class CustomErrorController implements ErrorController {
             int statusCode = Integer.parseInt(status.toString());
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                model.addAttribute("error", "The page you're looking for was not found");
+                model.addAttribute("error", "Запрашиваемая страница не найдена");
                 model.addAttribute("status", "404");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                model.addAttribute("error", "You don't have permission to access this resource");
+                model.addAttribute("error", "У вас нет прав для доступа к этому ресурсу");
                 model.addAttribute("status", "403");
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                model.addAttribute("error", "An internal server error occurred");
+                model.addAttribute("error", "Произошла внутренняя ошибка сервера");
                 model.addAttribute("status", "500");
             } else {
-                model.addAttribute("error", message != null ? message : "An unexpected error occurred");
+                model.addAttribute("error", message != null ? message : "Произошла непредвиденная ошибка");
                 model.addAttribute("status", status);
             }
         } else {
-            model.addAttribute("error", "An unexpected error occurred");
-            model.addAttribute("status", "Unknown");
+            model.addAttribute("error", "Произошла непредвиденная ошибка");
+            model.addAttribute("status", "Неизвестно");
         }
 
         return "error";

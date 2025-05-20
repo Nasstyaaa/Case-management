@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Case Management</title>
+    <title>Вход - Управление задачами</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
@@ -11,14 +11,14 @@
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Case Management</a>
+            <a class="navbar-brand" href="/">Управление задачами</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="/register">Регистрация</a>
                     </li>
                 </ul>
             </div>
@@ -27,26 +27,26 @@
 
     <div class="container min-vh-100 d-flex align-items-center justify-content-center">
         <div class="glass-card animate-fade-in" style="width: 100%; max-width: 400px;">
-            <h2 class="text-primary text-center mb-4">Welcome Back</h2>
+            <h2 class="text-primary text-center mb-4">Добро пожаловать</h2>
             
             <div th:if="${param.error}" class="alert alert-danger" role="alert">
-                Invalid username or password
+                Неверное имя пользователя или пароль
             </div>
             
             <form th:action="@{/api/auth/login}" method="post">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label for="username" class="form-label">Имя пользователя</label>
                     <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 
                 <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Пароль</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <a href="/register" class="btn btn-outline-light">Create Account</a>
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <a href="/register" class="btn btn-outline-light">Создать аккаунт</a>
                 </div>
             </form>
         </div>

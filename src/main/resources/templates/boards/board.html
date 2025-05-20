@@ -1,0 +1,14 @@
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="text-primary mb-2" th:text="${board.name}">Board Name</h2>
+                    <p class="text-secondary mb-0" th:text="${board.description}">Description</p>
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                    Добавить задачу
+                </button>
+            </div>
+            <div class="mb-4">
+                <button type="button" class="btn btn-outline-primary" id="randomTaskBtn">
+                    Случайная задача
+                </button>
+            </div> 

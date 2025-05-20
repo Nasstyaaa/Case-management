@@ -43,14 +43,12 @@ public class SecurityConfig {
                     "/webjars/**",
                     "/favicon.ico"
                 ).permitAll()
-                // Public pages
                 .requestMatchers(
                     "/",
                     "/index.html",
                     "/login",
                     "/register"
                 ).permitAll()
-                // Public API endpoints
                 .requestMatchers(
                     "/api/auth/login",
                     "/api/auth/register",

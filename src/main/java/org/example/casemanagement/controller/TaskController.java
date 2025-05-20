@@ -75,7 +75,7 @@ public class TaskController {
         } catch (Exception e) {
             log.error("Error creating task", e);
             Map<String, String> response = new HashMap<>();
-            response.put("message", "An unexpected error occurred");
+            response.put("message", "Произошла непредвиденная ошибка при создании задачи");
             return ResponseEntity.internalServerError().body(response);
         }
     }
@@ -103,7 +103,7 @@ public class TaskController {
         } catch (Exception e) {
             log.error("Error updating task", e);
             Map<String, String> response = new HashMap<>();
-            response.put("message", "An unexpected error occurred");
+            response.put("message", "Произошла непредвиденная ошибка при обновлении задачи");
             return ResponseEntity.internalServerError().body(response);
         }
     }
@@ -115,10 +115,8 @@ public class TaskController {
             @AuthenticationPrincipal User user
     ) {
         try {
-            taskService.deleteTask(taskId, user);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Task deleted successfully");
-            return ResponseEntity.ok(response);
+            taskService.deleteTask(boardId, taskId, user);
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             log.error("Invalid request deleting task", e);
             Map<String, String> response = new HashMap<>();
@@ -132,7 +130,33 @@ public class TaskController {
         } catch (Exception e) {
             log.error("Error deleting task", e);
             Map<String, String> response = new HashMap<>();
-            response.put("message", "An unexpected error occurred");
+            response.put("message", "Произошла непредвиденная ошибка при удалении задачи");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    @GetMapping("/random-todo")
+    public ResponseEntity<?> getRandomTodoTask(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal User user
+    ) {
+        try {
+            var task = taskService.getRandomTodoTask(boardId, user);
+            return ResponseEntity.ok(task);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid request getting random task", e);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (AccessDeniedException e) {
+            log.error("Access denied getting random task", e);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(403).body(response);
+        } catch (Exception e) {
+            log.error("Error getting random task", e);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Произошла непредвиденная ошибка");
             return ResponseEntity.internalServerError().body(response);
         }
     }
