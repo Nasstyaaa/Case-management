@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/case_management_db
-    username: case_user
-    password: case_password
+    url: jdbc:postgresql://postgres:5432/case_management_db
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,7 +19,7 @@ spring:
     host: smtp.mail.ru
     port: 465
     username: luk-2004@mail.ru
-    password: wUhgbZ4HEfcJwYGWm6u1
+    password: ${MAIL_PASSWORD}
     protocol: smtps
     properties:
       mail:
@@ -39,9 +39,10 @@ spring:
   application:
     name: case-management
 
+
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 86400000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
 
 server:
   port: 8080

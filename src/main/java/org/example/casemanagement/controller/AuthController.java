@@ -9,7 +9,10 @@ import org.example.casemanagement.dto.LoginRequest;
 import org.example.casemanagement.dto.RegisterRequest;
 import org.example.casemanagement.service.AuthService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Controller
@@ -31,16 +34,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(
-            @Valid RegisterRequest request,
+            @Valid @ModelAttribute RegisterRequest request,
+            BindingResult bindingResult,
             HttpServletResponse response
     ) {
+        if (bindingResult.hasErrors()) {
+            String errorMsg = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            return "redirect:/register?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8);
+        }
         try {
             var authResponse = authService.register(request);
             setAuthCookie(authResponse.getToken(), response);
             return "redirect:/boards";
         } catch (Exception e) {
             log.error("Registration failed for username: {}", request.getUsername(), e);
-            return "redirect:/register?error=" + e.getMessage();
+            String errorMsg = e.getMessage();
+            return "redirect:/register?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8);
         }
     }
 
@@ -54,8 +63,8 @@ public class AuthController {
             setAuthCookie(authResponse.getToken(), response);
             return "redirect:/boards";
         } catch (Exception e) {
-            log.error("Login failed for username: {}", request.getUsername(), e);
-            return "redirect:/login?error=" + e.getMessage();
+            String errorMsg = "Неверное имя пользователя или пароль";
+            return "redirect:/login?error=" + URLEncoder.encode(errorMsg, StandardCharsets.UTF_8);
         }
     }
 
